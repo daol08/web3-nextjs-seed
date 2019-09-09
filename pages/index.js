@@ -29,17 +29,7 @@ export default () => (
 				</Link>
 			</li>
 			<li>
-<<<<<<< HEAD
-				<Link href="/new">
-					<a>User List</a>
-				</Link>
-			</li>
-			<li>
-				<Link href="/test">
-					<a>Test</a>
-				</Link>
-			</li>
-=======
+
 				<Link href="/code">
 					<a>Code</a>
 				</Link>
@@ -50,7 +40,6 @@ export default () => (
 				</Link>
 			</li>
 
->>>>>>> upstream/master
 		</ul>
 	</>
 );
