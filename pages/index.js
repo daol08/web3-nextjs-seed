@@ -44,6 +44,11 @@ export default () => (
 					<a>Mint Cards</a>
 				</Link>
 			</li>
+			<li>
+				<Link href="/DAOLCard">
+					<a>DAOLCard</a>
+				</Link>
+			</li>
 
 		</ul>
 	</>
