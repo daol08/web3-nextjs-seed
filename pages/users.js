@@ -15,11 +15,11 @@ const initUsers = [
 	}
 ];
 
-const UserList = ({ users }) => {
+const Users = ({ users }) => {
 	return (
 		<div>
 			<h1>User List</h1>
-			{users && users.map(user => <User user={user} />)}
+			{users && users.map(user => <User key={user.id} user={user} />)}
 		</div>
 	);
 };
@@ -27,10 +27,6 @@ const UserList = ({ users }) => {
 const User = ({ user }) => {
 	return <div>Name: {user.name}</div>;
 };
-
-
-
-
 
 // setUsers([...users, values]);
 
@@ -49,13 +45,13 @@ const UserListContainer = props => {
 		// }
 		// newUser.push(values);
 
-		setUsers([...users, values]);
+		setUsers([...users, { ...values, id: new Date().getTime() }]);
 	}
 
 	return (
 		<>
 			<NewUserInput onSubmit={onInputChangeHandle} />
-			<UserList users={users} />
+			<Users users={users} />
 		</>
 	);
 };
