@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // lib
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 import dynamic from 'next/dynamic';
 import { useCaver } from '../hooks/useCaver';
 
@@ -16,41 +16,27 @@ import { JsonContainer } from '../components/PrettyJson.style';
 import NewCardInput from '../components/NewCardInput';
 
 function getOwner(contract) {
-	return contract.methods.owner().call();
 }
 
 function getCardCount({ contract, from }) {
-	return contract.methods.getCardCount().call();
 }
 
-function executeMintCard({ contract, name, balance, address, from }) {
-	return contract.methods.mintCard(name, balance, address).send({ from, gas: '300000' });
+function executeMintCard({ contract, name, address, from }) {
 }
 
 function getCard(contract, index) {
-	try {
-		console.log('getCard: ', index);
-		return contract.methods.cards(index).call();
-	} catch (e) {
-		console.log(e);
-		return null;
-	}
 }
 
 async function updateCard(contract, cardIndex, setCard) {
-	if (cardIndex < 0) return;
-	const card = await getCard(contract, cardIndex);
-	setCard(card);
 }
 
 async function updateOwner(contract, setOwner) {
-	const owner = await getOwner(contract);
-	setOwner(owner);
 }
 
 const MintableCard = ({ abi, contractAddress }) => {
 	const context = useCaver();
 	const [account, setAccount] = useState('');
+	const [balance, setBalance] = useState('0');
 
 	const [lastTransaction, setLastTransaction] = useState({});
 
@@ -81,6 +67,7 @@ const MintableCard = ({ abi, contractAddress }) => {
 		initializer();
 	}, [context]);
 
+	useEffect(() => {}, [balance]);
 	useEffect(() => {
 		if (contract === null) return;
 
@@ -92,7 +79,6 @@ const MintableCard = ({ abi, contractAddress }) => {
 		});
 	}, [contract]);
 
-	// { name: string, address: string, balance: number }
 	async function onSubmit(values) {
 		console.log('onSubmit');
 		if (context === null) {
@@ -103,14 +89,10 @@ const MintableCard = ({ abi, contractAddress }) => {
 		const provider = context.getProvider();
 		const { toPeb } = context.getUtils();
 
-		const { name, balance, address } = values;
-		// const balance = 1;
-		// const balance = process.env.BLANCE;
-
+		const { name, address } = values;
 		const transaction = await executeMintCard({
 			contract,
 			name,
-			balance,
 			address,
 			from: account.address
 		});
@@ -126,7 +108,7 @@ const MintableCard = ({ abi, contractAddress }) => {
 		<>
 			{/*<PageHeader title={'Mint Cards'} />*/}
 			<div style={{ paddingTop: 24 }}>
-				<Title>FLUI Cards</Title>
+				<Title>Mint Cards</Title>
 				<Text>Account: {account.address}</Text>
 				<br />
 				<Text>Contract Address: {contractAddress}</Text>
@@ -154,13 +136,13 @@ const MintableCard = ({ abi, contractAddress }) => {
 };
 MintableCard.getInitialProps = async ({ pathname }) => {
 	console.log('MintableCard::getInitialProps', pathname);
-	const abi = await axios.get(process.env.CONTRACT_ABI_JSON).then(res => {
+	const abi = await fetch(process.env.CONTRACT_ABI_JSON).then(res => {
 		return res.data;
 	});
 
-	const { contractAddress } = await axios
-		.get(process.env.CONTRACT_ADDRESS_JSON)
-		.then(res => res.data);
+	const { contractAddress } = await fetch(process.env.CONTRACT_ADDRESS_JSON).then(
+		res => res.data
+	);
 
 	return { abi, contractAddress };
 };
