@@ -5,28 +5,34 @@ import JSONPretty from 'react-json-pretty';
 import { JsonContainer } from '../components/PrettyJson.style';
 import axios from 'axios';
 import DepositInput from '../components/DepositInput';
-import TransferInput from '../components/TransferInput';
-import WithdrawInput from '../components/WithdrawInput';
-import { Button, Divider, PageHeader, Typography } from 'antd';
+import { Button, Col, Divider, PageHeader, Row, Typography } from 'antd';
 const { Title, Text } = Typography;
 
 // pages/index.jsimport getConfig from 'next/config'
 import getConfig from 'next/config';
+import WithdrawInput from '../components/WithdrawInput';
+import TransferInput from '../components/TransferInput';
+import basicStyle from '../components/basicStyle';
 // Only holds serverRuntimeConfig and publicRuntimeConfig from next.config.js nothing else.
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
+// function deposit({ contract, amount, from }) {
+// 	return contract.methods.mintCard(amount).send({ from, gas: '300000' });
+// }
+
 function deposit({ contract, amount, from }) {
 	return contract.methods.deposit(amount).send({ from, gas: '300000' });
-};
-function withdraw({contract, amount, from}) {
+}
+function withdraw({ contract, amount, from }) {
 	return contract.methods.withdraw(amount).send({ from, gas: '300000' });
-};
-function transfer({contract, to, amount, from}) {
-	return contract.methods.transfer(to, amount).send({ from, gas: '300000' });
-};
-function getBalance({contract, from}) {
-	return contract.methods.getBalance(balance).send({ from, gas: '300000' });
-};
+}
+function transfer({ contract, to, amount, from }) {
+	return contract.methods.transfer(amount).send({ from, gas: '300000' });
+}
+function getBalance({ contract, from }) {
+	return contract.methods.getBalance(amount).send({ from, gas: '300000' });
+}
+
 const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 	const context = useCaver();
 
@@ -58,6 +64,7 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 		setLastTransaction(transaction);
 	}
 
+	const { rowStyle, colStyle, gutter } = basicStyle;
 	return (
 		<>
 			<div style={{ paddingTop: 24 }}>
@@ -70,9 +77,23 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 
 			<Divider />
 
-			<DepositInput onSubmit={onSubmit} />
-			<TransferInput onSubmit={onSubmit} />
-			<WithdrawInput onSubmit={onSubmit} />
+			<Row style={rowStyle} gutter={gutter} type="flex">
+				<Col style={colStyle} span={8}>
+					<h3> Deposit Func </h3>
+					<DepositInput onSubmit={onSubmit} />
+				</Col>
+
+				<Col style={colStyle} span={8}>
+					<h3> Withdraw Func </h3>
+					<WithdrawInput onSubmit={onSubmit} />
+				</Col>
+
+				<Col style={colStyle} span={8}>
+					<h3> Transfer Func </h3>
+					<TransferInput onSubmit={onSubmit} />
+				</Col>
+			</Row>
+
 			<Divider />
 
 			<JsonContainer>

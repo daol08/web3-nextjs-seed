@@ -16,16 +16,15 @@ class WithdrawInputComp extends React.Component {
 
 		return (
 			<Form layout="vertical" onSubmit={this.onInputChangeHandle} style={{ marginTop: 32 }}>
-				<Form.Item>{getFieldDecorator('amount', {})(<Input placeholder="Amount" />)}</Form.Item>
-\
+				<Form.Item>{getFieldDecorator('amount', {})(<InputNumber style={{ width: '100%' }}  placeholder="Amount" />)}</Form.Item>
 				<Form.Item>
-					<Button htmlType="submit">Withdraw</Button>
+					<Button htmlType="submit" type="primary">DEPOSIT</Button>
 				</Form.Item>
 			</Form>
 		);
 	}
 }
 
-const WithdrawInput= Form.create()(WithdrawInputComp);
+const WithdrawInput = Form.create()(WithdrawInputComp);
 
 export default WithdrawInput;
