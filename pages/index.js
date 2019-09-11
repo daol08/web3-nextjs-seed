@@ -67,6 +67,13 @@ export default () => (
 					<a>getInitialProps</a>
 				</Link>
 			</li>
+
+			<li>
+				<Link href="/flui-banks">
+					<a>FLUI Banks</a>
+				</Link>
+			</li>
+
 		</ul>
 	</>
 );
