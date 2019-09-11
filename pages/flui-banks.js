@@ -51,7 +51,7 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 	return (
 		<>
 			<div style={{ paddingTop: 24 }}>
-				<Title>FLUI Bank</Title>
+				<Title>DAOL Bank</Title>
 				<Text>Account: {account.address}</Text>
 				<br />
 				<Text>Contract Address: {contractAddress}</Text>
