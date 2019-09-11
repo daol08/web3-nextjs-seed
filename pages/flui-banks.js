@@ -44,6 +44,10 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 
 	const [lastTransaction, setLastTransaction] = useState({});
 
+<<<<<<< HEAD
+=======
+	// onSubmit -> onDepositSubmitHandle
+>>>>>>> upstream/master
 	async function onDepositSubmit(values) {
 		console.log('onDepositSubmit', values);
 		if (context === null) {
@@ -52,6 +56,7 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 		}
 
 		const { toPeb } = context.getUtils();
+<<<<<<< HEAD
 		const amount = parseInt(values.amount * 1000); // decimal to integer
 		// const { amount } = values;
 		const transaction = await deposit({
@@ -93,10 +98,65 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 			contract,
 			to,
 			amount: toPeb(amount, 'KLAY'),
+=======
+
+		// const { amount } = values;
+		const amount = parseInt(values.amount * 1000); // decimal to integer
+
+		const transaction = await deposit({
+			contract,
+			amount: toPeb(amount, 'mKLAY'),
+>>>>>>> upstream/master
 			from: account.address
 		});
 
 		setLastTransaction(transaction);
+	}
+
+	// onSubmit -> onWithdrawSubmit
+	async function onWithdrawSubmit(values) {
+		console.log('onWithdrawSubmit', values);
+		if (context === null) {
+			alert('No provider');
+			return;
+		}
+
+		const { toPeb } = context.getUtils();
+
+		// const { amount } = values;
+		const amount = parseInt(values.amount * 1000); // decimal to integer
+
+		// const transaction = await withdraw({
+		// 	contract,
+		// 	name,
+		// 	address,
+		// 	from: account.address
+		// });
+		//
+		// setLastTransaction(transaction);
+	}
+
+	// onSubmit -> onTransferSubmit
+	async function onTransferSubmit(values) {
+		console.log('onTransferSubmit', values);
+		if (context === null) {
+			alert('No provider');
+			return;
+		}
+
+		const { toPeb } = context.getUtils();
+
+		const { to } = values;
+		// const { amount } = values;
+		const amount = parseInt(values.amount * 1000); // decimal to integer
+		// const transaction = await transfer({
+		// 	contract,
+		// 	to,
+		// 	amount,
+		// 	from: account.address
+		// });
+		//
+		// setLastTransaction(transaction);
 	}
 
 	const { rowStyle, colStyle, gutter } = basicStyle;
