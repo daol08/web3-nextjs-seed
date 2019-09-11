@@ -44,20 +44,55 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 
 	const [lastTransaction, setLastTransaction] = useState({});
 
-	async function onSubmit(values) {
-		console.log('onSubmit');
+	async function onDepositSubmit(values) {
+		console.log('onDepositSubmit', values);
 		if (context === null) {
 			alert('No provider');
 			return;
 		}
 
 		const { toPeb } = context.getUtils();
-
-		const { name, address } = values;
+		const amount = parseInt(values.amount * 1000); // decimal to integer
+		// const { amount } = values;
 		const transaction = await deposit({
 			contract,
-			name,
-			address,
+			amount: toPeb(amount, 'KLAY'),
+			from: account.address
+		});
+
+		setLastTransaction(transaction);
+	}
+	async function onWithdrawSubmit(values) {
+		console.log('onWithdrawSubmit');
+		if (context === null) {
+			alert('No provider');
+			return;
+		}
+
+		const { toPeb } = context.getUtils();
+		const amount = parseInt(values.amount * 1000); // decimal to integer
+		const transaction = await withdraw({
+			contract,
+			amount: toPeb(amount, 'KLAY'),
+			from: account.address
+		});
+
+		setLastTransaction(transaction);
+	}
+	async function onTransferSubmit(values) {
+		console.log('onTransferSubmit');
+		if (context === null) {
+			alert('No provider');
+			return;
+		}
+
+		const { toPeb } = context.getUtils();
+		const amount = parseInt(values.amount * 1000);
+		const { to } = values;
+		const transaction = await transfer({
+			contract,
+			to,
+			amount: toPeb(amount, 'KLAY'),
 			from: account.address
 		});
 
@@ -80,17 +115,17 @@ const FLUIBank = ({ privateKey, abi, contractAddress }) => {
 			<Row style={rowStyle} gutter={gutter} type="flex">
 				<Col style={colStyle} span={8}>
 					<h3> Deposit Func </h3>
-					<DepositInput onSubmit={onSubmit} />
+					<DepositInput onSubmit={onDepositSubmit} />
 				</Col>
 
 				<Col style={colStyle} span={8}>
 					<h3> Withdraw Func </h3>
-					<WithdrawInput onSubmit={onSubmit} />
+					<WithdrawInput onSubmit={onWithdrawSubmit} />
 				</Col>
 
 				<Col style={colStyle} span={8}>
 					<h3> Transfer Func </h3>
-					<TransferInput onSubmit={onSubmit} />
+					<TransferInput onSubmit={onTransferSubmit} />
 				</Col>
 			</Row>
 
