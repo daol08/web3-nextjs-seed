@@ -5,14 +5,9 @@ import { Divider } from 'antd';
 export default () => (
 	<>
 		<h1 style={{ marginBottom: 8 }}>Sample </h1>
-		<p style={{ margin: 0, color: '#aaaaaa' }}>Nextjs + Web3 + Antd</p>
+		<p style={{ margin: 0, color: '#aaaaaa' }}>Klaytn + Nextjs + Antd Seed</p>
 		<Divider />
 		<ul style={{ padding: 24 }}>
-			<li>
-				<Link href="/account">
-					<a>Account</a>
-				</Link>
-			</li>
 			<li>
 				<Link href="/hooks">
 					<a>Hooks sample</a>
@@ -40,6 +35,7 @@ export default () => (
 			</li>
 
 			<li>
+<<<<<<< HEAD
 				<Link href="/cards">
 					<a>Mint Cards</a>
 				</Link>
@@ -57,6 +53,8 @@ export default () => (
 			</li>
 
 			<li>
+=======
+>>>>>>> upstream/master
 				<Link href="/flui-cards">
 					<a>FLUI Cards</a>
 				</Link>
@@ -73,7 +71,6 @@ export default () => (
 					<a>FLUI Banks</a>
 				</Link>
 			</li>
-
 		</ul>
 	</>
 );

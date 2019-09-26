@@ -8,35 +8,20 @@ import { ThemeProvider } from 'styled-components';
 import defaultTheme from '../themes/default.theme';
 
 // web3-react
-import Web3Provider, { Connectors } from 'web3-react';
 import Container from '../components/Container';
 import { CaverProvider } from '../hooks/useCaver';
-const { InjectedConnector, NetworkOnlyConnector } = Connectors;
-const MetaMask = new InjectedConnector();
-const Infura = new NetworkOnlyConnector({
-	providerURL: 'https://mainnet.infura.io/v3/...'
-});
-
-const connectors = { MetaMask };
-
-import getConfig from 'next/config';
-// Only holds serverRuntimeConfig and publicRuntimeConfig from next.config.js nothing else.
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 class MyApp extends App {
 	render() {
 		const { Component, pageProps } = this.props;
 
-		const caverProviderName = publicRuntimeConfig.CAVER_PROVIDER;
 		return (
 			<ThemeProvider theme={defaultTheme}>
-				<Web3Provider connectors={connectors} libraryName={'ethers.js'}>
-					<CaverProvider options={{ provider: caverProviderName }}>
-						<Container>
-							<Component {...pageProps} />
-						</Container>
-					</CaverProvider>
-				</Web3Provider>
+				<CaverProvider options={{ provider: process.env.CAVER_PROVIDER || 'baobab' }}>
+					<Container>
+						<Component {...pageProps} />
+					</Container>
+				</CaverProvider>
 			</ThemeProvider>
 		);
 	}

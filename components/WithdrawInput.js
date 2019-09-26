@@ -24,7 +24,6 @@ class WithdrawInputComp extends React.Component {
 							min={0.01}
 							max={1.0}
 							step={0.01}
-							defaultValue={0.01}
 							style={{ width: '100%' }}
 							placeholder="Amount"
 						/>
@@ -32,7 +31,7 @@ class WithdrawInputComp extends React.Component {
 				</Form.Item>
 				<Form.Item>
 					<Button htmlType="submit" type="primary">
-						DEPOSIT
+						WITHDRAW
 					</Button>
 				</Form.Item>
 			</Form>
